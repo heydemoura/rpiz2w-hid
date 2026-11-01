@@ -51,6 +51,11 @@ cd rpiz2w-hid && sudo ./install.sh && sudo reboot
    * `hidproxy.service` runs the TCP server (`python3 -m hidproxy`).
 4. Advertises `_hidproxy._tcp` over mDNS (avahi).
 
+Both services are enabled, so after the reboot (and every boot after that) the
+proxy starts automatically, about 30 s after power-on on a Zero 2 W. There's no
+need to log in. If the host is plugged in at boot, it enumerates the keyboard and
+mouse as soon as the gadget is bound.
+
 Check it's running:
 
 ```sh

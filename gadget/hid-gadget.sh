@@ -8,6 +8,7 @@ set -euo pipefail
 G=/sys/kernel/config/usb_gadget/hidproxy
 
 up() {
+    modprobe dwc2 2>/dev/null || true
     modprobe libcomposite
     mountpoint -q /sys/kernel/config || mount -t configfs none /sys/kernel/config
     [ -d "$G" ] && down
@@ -49,7 +50,13 @@ up() {
     ln -s functions/hid.keyboard configs/c.1/
     ln -s functions/hid.mouse configs/c.1/
 
-    udc=$(ls /sys/class/udc | head -n1)
+    # At boot the dwc2 driver may still be probing; wait up to 30 s for the UDC.
+    udc=""
+    for _ in $(seq 1 60); do
+        udc=$(ls /sys/class/udc 2>/dev/null | head -n1)
+        [ -n "$udc" ] && break
+        sleep 0.5
+    done
     if [ -z "$udc" ]; then
         echo "no USB device controller found: is dtoverlay=dwc2 set and the Pi rebooted?" >&2
         exit 1

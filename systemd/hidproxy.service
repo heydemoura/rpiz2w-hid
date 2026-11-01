@@ -1,7 +1,9 @@
 [Unit]
 Description=Network to USB HID proxy (TCP)
+# Wants (not Requires): keep the TCP server up even if the gadget failed; HID
+# commands then answer "ERR usb not connected to host".
+Wants=hid-gadget.service
 After=hid-gadget.service network.target
-Requires=hid-gadget.service
 
 [Service]
 EnvironmentFile=-/etc/default/hidproxy
