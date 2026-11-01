@@ -1,0 +1,4 @@
+# Settings for hidproxy.service (restart after editing: sudo systemctl restart hidproxy)
+HIDPROXY_PORT=5555
+# Require "AUTH <token>" from clients. Empty = no auth (anyone on the network can type!).
+HIDPROXY_TOKEN=

@@ -1,0 +1,14 @@
+[Unit]
+Description=Network to USB HID proxy (TCP)
+After=hid-gadget.service network.target
+Requires=hid-gadget.service
+
+[Service]
+EnvironmentFile=-/etc/default/hidproxy
+WorkingDirectory=/opt/hidproxy
+ExecStart=/usr/bin/python3 -m hidproxy
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

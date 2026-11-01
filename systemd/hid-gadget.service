@@ -1,0 +1,13 @@
+[Unit]
+Description=USB HID gadget (keyboard + mouse) via configfs
+After=sys-kernel-config.mount systemd-modules-load.service
+Wants=sys-kernel-config.mount
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/opt/hidproxy/gadget/hid-gadget.sh up
+ExecStop=/opt/hidproxy/gadget/hid-gadget.sh down
+
+[Install]
+WantedBy=multi-user.target
